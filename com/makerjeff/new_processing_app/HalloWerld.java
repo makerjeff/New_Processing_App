@@ -13,7 +13,7 @@ public class HalloWerld extends PApplet {
 	float yPos = 0.0f;
 	float lineWidth = 2f;
 	float refresh = 30f;
-	int appWidth = 1920;
+	int appWidth;
 	int appHeight = 400;
 
 	// JAVA PROCESSING BOILER ====================
@@ -23,7 +23,7 @@ public class HalloWerld extends PApplet {
 	
 	// SETTINGS ======================
 	public void settings(){
-		size(appWidth, appHeight);
+		size(displayWidth, appHeight);
 	}
 	
 	// SETUP ====================
