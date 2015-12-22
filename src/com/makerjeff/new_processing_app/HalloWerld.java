@@ -4,6 +4,7 @@ import processing.core.*;
 import processing.serial.*;
 //import processing.video.*;
 
+// CLASS DEFINITION =====================
 public class HalloWerld extends PApplet {
 	
 	//global vars ==========
@@ -12,42 +13,44 @@ public class HalloWerld extends PApplet {
 	float yPos = 0.0f;
 	float lineWidth = 2f;
 	float refresh = 30f;
-	
 	int appWidth = 1920;
 	int appHeight = 400;
 
+	// JAVA PROCESSING BOILER ====================
 	public static void main(String[] args) {
 		PApplet.main("com.makerjeff.new_processing_app.HalloWerld");
 	}
 	
+	// SETTINGS ======================
 	public void settings(){
 		size(appWidth, appHeight);
 	}
+	
+	// SETUP ====================
 	public void setup() {
+		
 		smooth();
 		frameRate(refresh);
 		background(255,210,0);
 		
-		//print array to console
-		printArray(Serial.list());
-				
+		//setup text styles
 		fill(0,0,0);
 		textSize(16);
 		textAlign(LEFT);
 		
+		//setup line styles
 		stroke(255, 230,0);
 		
-		//print serial ports on screen
-		for(int i = 0; i < Serial.list().length; i++) {
-			text("[" + i + "] " + Serial.list()[i], 10, 20 * i + 20);
-		}
-		
-		//serial port related setup
+		//spit out info to terminal + screen
+		debugSerial();
+
+		//setup serial port objects
 		String portName = Serial.list()[5];	// dev/tty.usbmodem1a1321
 		myPort = new Serial(this, portName, 9600);
 		
 
 	}
+	// DRAW =======================
 	public void draw() {
 		//connect_the_dots();
 		//stroke(255,230,0);
@@ -59,7 +62,7 @@ public class HalloWerld extends PApplet {
 		if (xPos >= width) {
 			xPos = 0;	//reset back to beginning
 			background(255,210,0); //clear frame
-			
+			//randomize colors for the next pass
 			stroke(round(random(0,255)), round(random(0,255)), round(random(0,255)));
 		}
 		else{
@@ -67,11 +70,12 @@ public class HalloWerld extends PApplet {
 		}
 	}
 	
+	// MOUSEPRESSED <event> ===================
 	public void mousePressed() {
 		//background(255);
 	}
 	
-	//special serial event
+	// SERIAL EVENT <event> ===================
 	public void serialEvent(Serial myPort) {
 		//grab a byte
 		int inByte = myPort.read();
@@ -81,15 +85,17 @@ public class HalloWerld extends PApplet {
 		yPos = height - inByte;	//determine line height
 	}
 	
-	//CUSTOM FUNCTIONS
-	public void connect_the_dots() {
-		noStroke();
-		fill(220,0,0);
-		ellipse(mouseX, mouseY, 10, 10);
-		fill(120,120,120);
-		ellipse(pmouseX, pmouseY, 10,10);
-		stroke(120,120,120);
-		line(mouseX, mouseY, pmouseX, pmouseY);
-	}
+	//CUSTOM FUNCTIONS ===================
+	
+	//print stuff to screen + console
+	public void debugSerial(){
+		//print array to console
+		printArray(Serial.list());
+		
+		//print serial ports on screen
+		for(int i = 0; i < Serial.list().length; i++) {
+			text("[" + i + "] " + Serial.list()[i], 10, 20 * i + 20);
+		}
+	} 
 
 }
